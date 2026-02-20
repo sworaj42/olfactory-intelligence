@@ -1,0 +1,17 @@
+pandas
+numpy
+scikit-learn
+matplotlib
+plotly
+jupyter
+tqdm
+python-dotenv
+networkx
+python-louvain
+node2vec
+xgboost
+shap
+sentence-transformers
+umap-learn
+hdbscan
+streamlit
