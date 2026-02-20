@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+ENV/
+.env
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data (keep raw/processed out of git)
+data/raw/
+data/interim/
+data/processed/
+
+# Reports / outputs
+reports/figures/
+reports/results/
+
+# Streamlit
+.streamlit/
+
+# IDE
+.vscode/
+.idea/
