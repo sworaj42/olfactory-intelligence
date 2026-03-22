@@ -30,3 +30,6 @@ reports/results/
 # IDE
 .vscode/
 .idea/
+
+# Models
+models/*.pkl

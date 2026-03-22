@@ -1,44 +1,12 @@
-import pandas as pd
-from src.utils.paths import RAW_DIR
+from pathlib import Path
 
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
-def main():
-    file_path = RAW_DIR / "fra_cleaned.csv"
+DATA_DIR = PROJECT_ROOT / "data"
+RAW_DIR = DATA_DIR / "raw"
+INTERIM_DIR = DATA_DIR / "interim"
+PROCESSED_DIR = DATA_DIR / "processed"
 
-    print("Looking for file at:")
-    print(file_path)
-
-    if not file_path.exists():
-        raise FileNotFoundError(f"File not found: {file_path}")
-
-    df = pd.read_csv(file_path)
-
-    print("\n===== BASIC INFO =====")
-    print("Shape:", df.shape)
-
-    print("\n===== COLUMNS =====")
-    print(df.columns.tolist())
-
-    print("\n===== DATA TYPES =====")
-    print(df.dtypes)
-
-    print("\n===== MISSING VALUES (top 20) =====")
-    missing = df.isna().sum().sort_values(ascending=False)
-    missing = missing[missing > 0].head(20)
-    if len(missing) == 0:
-        print("No missing values found.")
-    else:
-        print(missing.to_string())
-
-    print("\n===== DUPLICATES =====")
-    if "url" in df.columns:
-        print("Duplicate URLs:", df["url"].duplicated().sum())
-    else:
-        print("No 'url' column found.")
-
-    print("\n===== SAMPLE ROWS =====")
-    print(df.head(3).to_string(index=False))
-
-
-if __name__ == "__main__":
-    main()
+REPORTS_DIR = PROJECT_ROOT / "reports"
+FIGURES_DIR = REPORTS_DIR / "figures"
+RESULTS_DIR = REPORTS_DIR / "results"
