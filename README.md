@@ -66,13 +66,12 @@ olfactory-intelligence/
 
 ```mermaid
 flowchart TD
-    A[🗂️ Raw CSV\n~24k perfumes · semicolon-delimited · ISO-8859-1] 
-    --> B[🧹 Data Cleaning\nStandardize columns · fix comma-decimals\nvalidate year & gender · deduplicate by brand+perfume]
-    --> C[⚙️ Feature Engineering\n367 features — note one-hots · accord one-hots\nbrand aggregates · metadata · note counts]
-    --> D{Binary Target\ntop 30% of rating_value × log rating_count\nthreshold = 22.42}
-    --> E[🌲 Random Forest Classifier\n300 estimators · balanced class weights\nthreshold tuned to 0.39 by F1-sweep]
-    --> F[📊 Evaluation\nAccuracy 74.9% · F1 0.595\nconfusion matrix · feature importance]
-    --> G[🔍 SHAP Explainability\nTreeExplainer · global importance\nper-perfume waterfall plots]
+    A[Raw CSV\n24k perfumes] --> B[Data Cleaning\nStandardize · deduplicate · fix types]
+    B --> C[Feature Engineering\n367 features — notes · accords · metadata]
+    C --> D{Define Target\ntop 30% success score}
+    D --> E[Random Forest\n300 estimators · threshold = 0.39]
+    E --> F[Evaluation\nAccuracy 74.9% · F1 0.595]
+    F --> G[SHAP Analysis\nGlobal importance · per-perfume explanation]
 ```
 ---
 
