@@ -166,3 +166,8 @@ SHAP (SHapley Additive Explanations) explains why the model makes each predictio
 | joblib | Model serialisation |
 
 ---
+
+
+## Author
+
+**Swaraj Sigdel** — [GitHub](https://github.com/sworaj42) · [LinkedIn](https://www.linkedin.com/in/swaraj-sigdel-86a6972aa/)
