@@ -126,36 +126,28 @@ jupyter notebook
 
 ---
 
-## Generated Outputs
+## SHAP Analysis
 
-### Figures (`reports/figures/`)
+SHAP (SHapley Additive Explanations) explains why the model makes each prediction by attributing a contribution value to every feature.
 
-| File | Description |
-|---|---|
-| `success_formula_comparison_kde.png` | KDE comparison of two success score definitions |
-| `rf_composition_confusion_matrix.png` | Confusion matrix for composition-only model |
-| `rf_composition_top25_importance.png` | Top 25 feature importances (composition model) |
-| `rf_full_confusion_matrix.png` | Confusion matrix for full model (default threshold) |
-| `rf_full_top25_importance.png` | Top 25 feature importances (full model) |
-| `rf_full_tuned_confusion_matrix.png` | Confusion matrix for tuned threshold |
-| `shap_summary_beeswarm_full_model.png` | SHAP beeswarm — feature impact distribution |
-| `shap_summary_bar_full_model.png` | SHAP bar — mean absolute SHAP per feature |
-| `shap_dependence_*.png` | SHAP dependence plots for top-3 features |
-| `waterfall_*.png` | Per-perfume waterfall explanation |
+**Global feature importance — which features matter most across all perfumes:**
 
-### Results (`reports/results/`)
+![SHAP Bar](reports/figures/shap_summary_bar_full_model.png)
 
-| File | Description |
-|---|---|
-| `model_comparison.csv` | Accuracy / precision / recall / F1 for all 3 models |
-| `modeling_artifacts.json` | Feature column lists, train/test indices, thresholds |
-| `rf_full_feature_importance.csv` | Gini feature importances for the full model |
-| `rf_composition_feature_importance.csv` | Gini feature importances for composition model |
-| `test_predictions.csv` | Predicted probabilities on the test set |
-| `shap_feature_importance_full_model.csv` | Mean absolute SHAP for all features |
-| `shap_top20_features_full_model.csv` | Top 20 SHAP features |
-| `shap_report_table_top15.csv` | Ranked top-15 for report writing |
-| `shap_prediction_sample_full_model.csv` | Probabilities + labels for the SHAP sample |
+![SHAP Beeswarm](reports/figures/shap_summary_beeswarm_full_model.png)
+
+**Dependence plots — how each top feature affects predictions:**
+
+![brand_perfume_count dependence](reports/figures/shap_dependence_brand_perfume_count.png)
+
+![perfume_age dependence](reports/figures/shap_dependence_perfume_age.png)
+
+![country_France dependence](reports/figures/shap_dependence_country_France.png)
+
+**Per-perfume explanation — why "Midnight in Paris" was predicted successful (86.6% probability):**
+
+![Waterfall — Midnight in Paris](reports/figures/waterfall_midnight-in-paris.png)
+
 
 ---
 
@@ -168,3 +160,5 @@ jupyter notebook
 | shap | Model explainability (TreeExplainer) |
 | matplotlib | Visualisation — confusion matrices, importance plots, SHAP plots |
 | joblib | Model serialisation |
+
+---
