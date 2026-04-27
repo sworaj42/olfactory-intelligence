@@ -33,7 +33,7 @@ Given a perfume's composition (notes, accords, metadata), the model predicts whe
 | `Perfumer1` / `Perfumer2` | Perfumer names |
 | `mainaccord1`–`mainaccord5` | Up to 5 dominant accords |
 
-Download the dataset from [Kaggle — Fragrantica Fragrance Dataset](https://www.kaggle.com/datasets/olgagmiufana1/fragrantica-com-fragrance-dataset) and place the CSV at `data/raw/fragrantica_raw.csv`.
+
 ---
 
 ## Directory Structure
@@ -77,10 +77,11 @@ flowchart TD
 
 ## Setup
 
+## Setup
+
 ```bash
 # 1. Clone
 git clone https://github.com/sworaj42/olfactory-intelligence.git
-
 cd olfactory-intelligence
 
 # 2. Create virtual environment
@@ -90,15 +91,19 @@ python -m venv .venv
 
 # 3. Install dependencies
 pip install -r requirements.txt
+pip install pyarrow
 
-# 4. Place the raw data
-# Copy fragrantica_raw.csv into data/raw/
+# 4. Download the dataset
+# https://www.kaggle.com/datasets/olgagmiufana1/fragrantica-com-fragrance-dataset
+# Place fragrantica_raw.csv into data/raw/
 
 # 5. Run notebooks in order
 jupyter notebook
 ```
 
 ---
+
+## Model Results
 
 ## Model Results
 
@@ -109,10 +114,15 @@ jupyter notebook
 |---|---|---|---|---|
 | Composition Only (notes + accords) | 71.7% | 56.4% | 25.6% | 35.3% |
 | Full Model (default threshold 0.50) | 74.9% | 61.7% | 43.3% | 50.9% |
-| **Full Model (tuned threshold 0.39)** | **70.7%** | **50.8%** | **71.7%** | **59.5%** |
+| **Full Model (tuned threshold 0.39)** | 70.7% | 50.8% | 71.7% | **59.5%** |
 
 **Feature engineering:** 367 features — one-hot notes, accords, gender, metadata (age, name length, note counts), brand aggregates  
 **Algorithm:** Random Forest (300 estimators, balanced class weights, 80/20 train-test split)
+
+> **Key Finding:** `brand_perfume_count` and `perfume_age` are the strongest success predictors — outweighing raw scent composition. Market presence matters more than what's in the bottle.
+
+![Confusion Matrix](reports/figures/rf_full_tuned_confusion_matrix.png)
+
 
 ---
 
