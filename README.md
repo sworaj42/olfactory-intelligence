@@ -77,8 +77,6 @@ flowchart TD
 
 ## Setup
 
-## Setup
-
 ```bash
 # 1. Clone
 git clone https://github.com/sworaj42/olfactory-intelligence.git
@@ -105,9 +103,7 @@ jupyter notebook
 
 ## Model Results
 
-## Model Results
-
-**Task:** Binary classification — top 30% of `rating_value × log(rating_count)` = "successful"  
+**Task:** Binary classification - top 30% of `rating_value × log(rating_count)` = "successful"  
 **Success threshold:** 22.42 (score value)
 
 | Model | Accuracy | Precision | Recall | F1 |
@@ -116,10 +112,10 @@ jupyter notebook
 | Full Model (default threshold 0.50) | 74.9% | 61.7% | 43.3% | 50.9% |
 | **Full Model (tuned threshold 0.39)** | 70.7% | 50.8% | 71.7% | **59.5%** |
 
-**Feature engineering:** 367 features — one-hot notes, accords, gender, metadata (age, name length, note counts), brand aggregates  
+**Feature engineering:** 367 features - one-hot notes, accords, gender, metadata (age, name length, note counts), brand aggregates  
 **Algorithm:** Random Forest (300 estimators, balanced class weights, 80/20 train-test split)
 
-> **Key Finding:** `brand_perfume_count` and `perfume_age` are the strongest success predictors — outweighing raw scent composition. Market presence matters more than what's in the bottle.
+> **Key Finding:** `brand_perfume_count` and `perfume_age` are the strongest success predictors - outweighing raw scent composition. Market presence matters more than what's in the bottle.
 
 ![Confusion Matrix](reports/figures/rf_full_tuned_confusion_matrix.png)
 
@@ -130,13 +126,13 @@ jupyter notebook
 
 SHAP (SHapley Additive Explanations) explains why the model makes each prediction by attributing a contribution value to every feature.
 
-**Global feature importance — which features matter most across all perfumes:**
+**Global feature importance - which features matter most across all perfumes:**
 
 ![SHAP Bar](reports/figures/shap_summary_bar_full_model.png)
 
 ![SHAP Beeswarm](reports/figures/shap_summary_beeswarm_full_model.png)
 
-**Dependence plots — how each top feature affects predictions:**
+**Dependence plots - how each top feature affects predictions:**
 
 ![brand_perfume_count dependence](reports/figures/shap_dependence_brand_perfume_count.png)
 
@@ -144,20 +140,18 @@ SHAP (SHapley Additive Explanations) explains why the model makes each predictio
 
 ![country_France dependence](reports/figures/shap_dependence_country_France.png)
 
-**Per-perfume explanation — why "Midnight in Paris" was predicted successful (86.6% probability):**
+**Per-perfume explanation - why "Midnight in Paris" was predicted successful (86.6% probability):**
 
-![Waterfall — Midnight in Paris](reports/figures/waterfall_midnight-in-paris.png)
+![Waterfall - Midnight in Paris](reports/figures/waterfall_midnight-in-paris.png)
 
-
----
 
 **Key Findings:**
 
-- **Brand catalogue size dominates** — `brand_perfume_count` is the strongest predictor by far. Brands with larger catalogues consistently produce more successful perfumes, likely due to established distribution and consumer trust.
-- **Age beats novelty** — `perfume_age` is the second strongest predictor. Older perfumes have proven longevity; the model learned that staying power is a strong signal of success.
-- **French origin adds a premium** — `country_France` has a strong positive SHAP effect. Being from a French brand meaningfully increases predicted success probability.
-- **Vanilla and citrus accords help** — `accord__vanilla` and `accord__citrus` show positive SHAP values, suggesting warm and fresh scent profiles are commercially favored.
-- **Composition matters less than brand** — the gap between `brand_perfume_count` (0.07) and the first scent-related feature `accord__vanilla` (0.013) is large, confirming that *who made it* outweighs *what's in it*.
+- **Brand catalogue size dominates** - `brand_perfume_count` is the strongest predictor by far. Brands with larger catalogues consistently produce more successful perfumes, likely due to established distribution and consumer trust.
+- **Age beats novelty** - `perfume_age` is the second strongest predictor. Older perfumes have proven longevity; the model learned that staying power is a strong signal of success.
+- **French origin adds a premium** - `country_France` has a strong positive SHAP effect. Being from a French brand meaningfully increases predicted success probability.
+- **Vanilla and citrus accords help** - `accord__vanilla` and `accord__citrus` show positive SHAP values, suggesting warm and fresh scent profiles are commercially favored.
+- **Composition matters less than brand** - the gap between `brand_perfume_count` (0.07) and the first scent-related feature `accord__vanilla` (0.013) is large, confirming that *who made it* outweighs *what's in it*.
 
 ---
 
@@ -168,7 +162,7 @@ SHAP (SHapley Additive Explanations) explains why the model makes each predictio
 | pandas, numpy | Data manipulation and feature engineering |
 | scikit-learn | Random Forest classifier, metrics, train/test split |
 | shap | Model explainability (TreeExplainer) |
-| matplotlib | Visualisation — confusion matrices, importance plots, SHAP plots |
+| matplotlib | Visualisation - confusion matrices, importance plots, SHAP plots |
 | joblib | Model serialisation |
 
 ---
