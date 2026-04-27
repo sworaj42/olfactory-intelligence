@@ -29,7 +29,7 @@ Given a perfume's composition (notes, accords, metadata), the model predicts whe
 | `Rating Value` | Average user rating (0–5) |
 | `Rating Count` | Number of ratings |
 | `Year` | Release year |
-| `Top` / `Middle` / `Base` | Fragrance notes (pipe-separated strings) |
+| `Top` / `Middle` / `Base` | Fragrance notes |
 | `Perfumer1` / `Perfumer2` | Perfumer names |
 | `mainaccord1`–`mainaccord5` | Up to 5 dominant accords |
 
@@ -66,12 +66,12 @@ olfactory-intelligence/
 
 ```mermaid
 flowchart TD
-    A[Raw CSV\n24k perfumes] --> B[Data Cleaning\nStandardize · deduplicate · fix types]
-    B --> C[Feature Engineering\n367 features — notes · accords · metadata]
-    C --> D{Define Target\ntop 30% success score}
-    D --> E[Random Forest\n300 estimators · threshold = 0.39]
-    E --> F[Evaluation\nAccuracy 74.9% · F1 0.595]
-    F --> G[SHAP Analysis\nGlobal importance · per-perfume explanation]
+    A[Raw CSV - 24k perfumes] --> B[Data Cleaning]
+    B --> C[Feature Engineering - 367 features]
+    C --> D{Define Target - top 30% success score}
+    D --> E[Random Forest - 300 estimators, threshold 0.39]
+    E --> F[Evaluation - Accuracy 74.9%, F1 0.595]
+    F --> G[SHAP Analysis - global and per-perfume]
 ```
 ---
 
