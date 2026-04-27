@@ -151,6 +151,16 @@ SHAP (SHapley Additive Explanations) explains why the model makes each predictio
 
 ---
 
+**Key Findings:**
+
+- **Brand catalogue size dominates** — `brand_perfume_count` is the strongest predictor by far. Brands with larger catalogues consistently produce more successful perfumes, likely due to established distribution and consumer trust.
+- **Age beats novelty** — `perfume_age` is the second strongest predictor. Older perfumes have proven longevity; the model learned that staying power is a strong signal of success.
+- **French origin adds a premium** — `country_France` has a strong positive SHAP effect. Being from a French brand meaningfully increases predicted success probability.
+- **Vanilla and citrus accords help** — `accord__vanilla` and `accord__citrus` show positive SHAP values, suggesting warm and fresh scent profiles are commercially favored.
+- **Composition matters less than brand** — the gap between `brand_perfume_count` (0.07) and the first scent-related feature `accord__vanilla` (0.013) is large, confirming that *who made it* outweighs *what's in it*.
+
+---
+
 ## Tech Stack
 
 | Library | Purpose |
