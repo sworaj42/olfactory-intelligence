@@ -33,97 +33,55 @@ Given a perfume's composition (notes, accords, metadata), the model predicts whe
 | `Perfumer1` / `Perfumer2` | Perfumer names |
 | `mainaccord1`–`mainaccord5` | Up to 5 dominant accords |
 
-> **The raw data is not committed to this repository.** Download it separately and place it at `data/raw/fragrantica_raw.csv`.
-
+Download the dataset from [Kaggle — Fragrantica Fragrance Dataset](https://www.kaggle.com/datasets/olgagmiufana1/fragrantica-com-fragrance-dataset) and place the CSV at `data/raw/fragrantica_raw.csv`.
 ---
 
 ## Directory Structure
 
 ```
 olfactory-intelligence/
-│
-├── data/
-│   ├── raw/                        # Original Fragrantica CSV (git-ignored)
-│   ├── interim/                    # Intermediate transformations (git-ignored)
-│   └── processed/                  # Clean + feature-engineered data (git-ignored)
-│       ├── fragrantica_clean.csv   # Output of notebook 02
-│       ├── fragrantica_features.csv
-│       └── fragrantica_features.parquet   # Output of notebook 03 (model input)
-│
+├── data/ # All data files (git-ignored)
 ├── models/
-│   ├── rf_composition.pkl          # Trained Composition-only RF (git-ignored)
-│   ├── rf_full.pkl                 # Trained Full RF model (git-ignored)
-│   └── model_config.json           # Best threshold config (tracked)
-│
+│ └── model_config.json # Best threshold: 0.39
 ├── notebooks/
-│   ├── 01_data_audit.ipynb         # Initial exploration of raw data
-│   ├── 02_data_cleaning.ipynb      # Cleaning pipeline
-│   ├── 03_feature_engineering.ipynb
-│   ├── 04_modeling.ipynb           # Model training, evaluation, threshold tuning
-│   └── 05_shap_analysis.ipynb      # SHAP explainability analysis
-│
+│ ├── 01_data_audit.ipynb
+│ ├── 02_data_cleaning.ipynb
+│ ├── 03_feature_engineering.ipynb
+│ ├── 04_modeling.ipynb
+│ └── 05_shap_analysis.ipynb
 ├── reports/
-│   ├── figures/                    # All plots (git-ignored)
-│   └── results/                    # CSVs + JSON artifacts (git-ignored)
-│
+│ ├── figures/ # Confusion matrices, SHAP plots
+│ └── results/ # Model comparison CSVs, SHAP outputs
 ├── src/
-│   ├── data/
-│   │   ├── clean_data.py           # Cleaning functions (used by notebook 02)
-│   │   ├── build_features.py       # Feature pipeline script (scaffolded)
-│   │   └── load_data.py            # Data loader (scaffolded)
-│   ├── models/
-│   │   ├── __init__.py             # Exports modeling functions
-│   │   ├── modeling.py             # RF training, evaluation, threshold search
-│   │   ├── train_model.py          # CLI training script (scaffolded)
-│   │   ├── evaluate_model.py       # CLI evaluation script (scaffolded)
-│   │   └── explain_model.py        # CLI SHAP script (scaffolded)
-│   ├── graph/
-│   │   ├── build_graph.py          # Ingredient co-occurrence graph (scaffolded)
-│   │   └── graph_features.py       # Node2Vec graph embeddings (scaffolded)
-│   └── utils/
-│       ├── paths.py                # Centralised path constants
-│       └── helpers.py              # Shared utilities (scaffolded)
-│
-├── app/
-│   └── streamlit_app.py            # Fragrance recommender UI (scaffolded)
-│
+│ ├── data/clean_data.py # Cleaning pipeline
+│ ├── models/modeling.py # Training, evaluation, threshold tuning
+│ └── utils/paths.py # Path constants
 ├── requirements.txt
-├── .gitignore
-├── CLAUDE.md                       # AI assistant context document
 └── README.md
-```
 
+```
 ---
 
 ## Pipeline Overview
 
+```mermaid
+flowchart TD
+    A[🗂️ Raw CSV\n~24k perfumes · semicolon-delimited · ISO-8859-1] 
+    --> B[🧹 Data Cleaning\nStandardize columns · fix comma-decimals\nvalidate year & gender · deduplicate by brand+perfume]
+    --> C[⚙️ Feature Engineering\n367 features — note one-hots · accord one-hots\nbrand aggregates · metadata · note counts]
+    --> D{Binary Target\ntop 30% of rating_value × log rating_count\nthreshold = 22.42}
+    --> E[🌲 Random Forest Classifier\n300 estimators · balanced class weights\nthreshold tuned to 0.39 by F1-sweep]
+    --> F[📊 Evaluation\nAccuracy 74.9% · F1 0.595\nconfusion matrix · feature importance]
+    --> G[🔍 SHAP Explainability\nTreeExplainer · global importance\nper-perfume waterfall plots]
 ```
-data/raw/fragrantica_raw.csv
-        │
-        ▼  notebook 02 / src/data/clean_data.py
-data/processed/fragrantica_clean.csv
-        │
-        ▼  notebook 03
-data/processed/fragrantica_features.parquet
-        │
-        ├──▶  notebook 04  ──▶  models/rf_*.pkl
-        │                  ──▶  reports/results/model_comparison.csv
-        │                  ──▶  reports/figures/rf_*_confusion_matrix.png
-        │                  ──▶  reports/figures/rf_*_top25_importance.png
-        │
-        └──▶  notebook 05  ──▶  reports/figures/shap_summary_*.png
-                           ──▶  reports/figures/shap_dependence_*.png
-                           ──▶  reports/figures/waterfall_*.png
-                           ──▶  reports/results/shap_*.csv
-```
-
 ---
 
 ## Setup
 
 ```bash
 # 1. Clone
-git clone https://github.com/<your-username>/olfactory-intelligence.git
+git clone https://github.com/sworaj42/olfactory-intelligence.git
+
 cd olfactory-intelligence
 
 # 2. Create virtual environment
@@ -196,12 +154,8 @@ jupyter notebook
 
 | Library | Purpose |
 |---|---|
-| pandas, numpy | Data manipulation |
-| scikit-learn | Random Forest, preprocessing, metrics |
-| shap | Model explainability |
-| matplotlib, plotly | Visualisation |
-| networkx, python-louvain, node2vec | Graph analysis (planned) |
-| sentence-transformers | Text embeddings (planned) |
-| umap-learn, hdbscan | Dimensionality reduction / clustering (planned) |
-| streamlit | Web app (planned) |
+| pandas, numpy | Data manipulation and feature engineering |
+| scikit-learn | Random Forest classifier, metrics, train/test split |
+| shap | Model explainability (TreeExplainer) |
+| matplotlib | Visualisation — confusion matrices, importance plots, SHAP plots |
 | joblib | Model serialisation |
